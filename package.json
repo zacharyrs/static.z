@@ -1,0 +1,43 @@
+{
+  "scripts": {
+    "dev": "NODE_ENV=development webpack",
+    "build": "NODE_ENV=production webpack",
+    "lint": "eslint .",
+    "prepush": "yarn lint"
+  },
+  "name": "ssg.z",
+  "version": "0.0.1",
+  "description": "my custom design static site generator (because there aren't enough already...)",
+  "main": "scripts/main.js",
+  "repository": "git@github.com:zacharyrs/ssg.z.git",
+  "author": {
+    "name": "zacharyrs",
+    "email": "git@zacharyrs.me"
+  },
+  "private": true,
+  "devDependencies": {
+    "@babel/core": "7.2.0",
+    "@babel/preset-env": "7.2.0",
+    "autoprefixer": "9.4.2",
+    "babel-loader": "8.0.4",
+    "clean-webpack-plugin": "1.0.0",
+    "cssnano": "4.1.7",
+    "eslint": "5.9.0",
+    "eslint-config-prettier": "3.3.0",
+    "eslint-loader": "2.1.1",
+    "eslint-plugin-prettier": "3.0.0",
+    "gray-matter": "4.0.1",
+    "html-webpack-plugin": "3.2.0",
+    "marked": "0.5.2",
+    "mini-css-extract-plugin": "0.5.0",
+    "postcss-preset-env": "6.4.0",
+    "prettier": "1.15.3",
+    "prettier-loader": "2.1.1",
+    "pug": "2.0.3",
+    "pug-loader": "2.4.0",
+    "webpack": "4.27.1",
+    "webpack-cli": "3.1.2",
+    "webpack-plugin-serve": "0.1.2",
+    "webpackbar": "3.1.3"
+  }
+}
