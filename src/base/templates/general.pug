@@ -1,10 +1,8 @@
-//- extends ../components/page.pug
-
 html
     head
         title=htmlWebpackPlugin.options.title 
         meta(charset='utf-8')
     body
-        #main-container.
-            !{htmlWebpackPlugin.options.bodyHTML}
+        #main-container
+            != require('../../../src/content/pages/general/a/a.md')
         

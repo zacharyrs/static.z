@@ -62,4 +62,5 @@ typings/
 
 
 # custom stuff
-src/content
+#src/content
+dist

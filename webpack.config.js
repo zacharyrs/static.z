@@ -7,27 +7,29 @@ const { WebpackPluginServe: Serve } = require('webpack-plugin-serve')
 
 const fs = require('fs')
 const path = require('path')
-const marked = require('marked')
-const matter = require('gray-matter')
 
 const data = require('./src/content/data.json')
 
-const pages = ['src/content/pages/index/index.md', 'src/content/pages/general/a.md']
+const pages = ['src/content/pages/index/index', 'src/content/pages/general/a']
 
 const makeHtmlConfig = file => {
-  page = matter(fs.readFileSync(file))
+  let page = path.basename(file)
+  let template = path.basename(path.dirname(file))
+
+  let meta = require('./' + file + '/' + page + '.json')
+  let md = file + '/' + page + '.md'
 
   return {
-    template: 'pug-loader!./src/base/templates/' + path.basename(path.dirname(file)) + '.pug',
-    chunks: [path.basename(path.dirname(file)), ...(process.env.NODE_ENV == 'development' ? ['serve'] : [])],
+    template: 'pug-loader!./src/base/templates/' + template + '.pug',
+    chunks: [template, ...(process.env.NODE_ENV == 'development' ? ['serve'] : [])],
     cache: true,
-    title: page.data.title,
-    filename: path.basename(file, '.md') + '.html',
+    title: meta.title,
+    filename: page + '.html',
     meta: {
       viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no',
-      description: page.data.description,
+      description: meta.description,
     },
-    bodyHTML: marked(page.content),
+    md: md,
 
     // favicon: './src/content/favicon.ico'
   }
@@ -47,6 +49,36 @@ module.exports = {
   devtool: process.env.NODE_ENV == 'development' ? 'source-map' : 'hidden-source-map',
   module: {
     rules: [
+      {
+        test: /\.(gif|png|jpe?g)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'sqip-loader',
+            options: {
+              numberOfPrimitives: 20,
+              skipPreviewIfBase64: true,
+            },
+          },
+          {
+            loader: 'url-loader',
+            options: {
+              fallback: 'responsive-loader',
+              limit: 40960,
+              quality: 85,
+              outputPath: 'images/',
+              format: 'png',
+              adapter: require('responsive-loader/sharp'),
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              disable: process.env.NODE_ENV == 'development',
+            },
+          },
+        ],
+      },
       {
         enforce: 'pre',
         test: /\.js$/,
@@ -77,21 +109,6 @@ module.exports = {
         },
       },
       {
-        test: /\.json/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'json-loader',
-          },
-          {
-            loader: 'prettier-loader',
-            options: {
-              parser: 'json',
-            },
-          },
-        ],
-      },
-      {
         test: /\.css$/,
         exclude: /node_modules/,
         use: [
@@ -118,6 +135,11 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.md$/,
+        exclude: /node_modules/,
+        use: ['html-loader', 'markdown-loader'],
       },
     ],
   },
