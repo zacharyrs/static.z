@@ -23,6 +23,7 @@ renderer.image = (href, title, text) => {
     <img class="image-main" onload="this.classList.add('image-loaded')" src="\${require('./${href}').src}" srcset="\${require('./${href}').srcSet}" alt="${text}" ${
     title == null ? '' : ' title="' + title + '"'
   }>
+  </div>
   `
 }
 
@@ -57,7 +58,7 @@ module.exports = {
     ...(dev ? { serve: 'webpack-plugin-serve/client' } : {}),
   },
   output: {
-    path: __dirname + '/dist',
+    path: __dirname + (dev ? '/dist' : '/build'),
     filename: dev ? '[name].[hash].js' : '[name].[contenthash].js',
   },
   devtool: dev ? 'source-map' : 'hidden-source-map',
@@ -75,18 +76,17 @@ module.exports = {
             },
           },
           {
-            loader: 'responsive-loader',
-            options: {
-              sizes: [300, 600, 1200, 2000],
-              quality: 85,
-              outputPath: 'images/',
-              format: 'png',
-              adapter: require('responsive-loader/sharp'),
-            },
-          },
-          {
             loader: 'url-loader',
             options: {
+              fallback: {
+                loader: 'responsive-loader',
+                options: {
+                  sizes: [300, 600, 1200, 2000],
+                  name: 'images/[name]-[hash]-[width].[ext]',
+                  format: 'png',
+                  adapter: require('responsive-loader/sharp'),
+                },
+              },
               limit: 40960,
             },
           },
@@ -134,7 +134,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: dev ? '[name].[hash].css' : '[name].[contenthash].css',
+              name: '[name].[hash].css',
             },
           },
           'extract-loader',
@@ -181,7 +181,7 @@ module.exports = {
           }),
         ]
       : []),
-    new CleanWebpackPlugin('./dist'),
+    // new CleanWebpackPlugin(dev ? './dist' : './build'),
     ...pages.map(p => new HtmlWebpackPlugin(makeHtmlConfig(p))),
   ],
 }

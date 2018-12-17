@@ -28,8 +28,6 @@ module.exports = function(contentBuffer) {
   var content = contentBuffer.toString('utf8')
   var filePath = this.resourcePath
 
-  var end = content.match(/^module.exports = {(.*)/)[1]
-
   var numberOfPrimitives = 'numberOfPrimitives' in options ? parseInt(options.numberOfPrimitives, 10) : 20
   var mode = 'mode' in options ? parseInt(options.mode, 10) : 0
   var blur = 'blur' in options ? parseInt(options.blur, 10) : 12
@@ -42,7 +40,21 @@ module.exports = function(contentBuffer) {
   var encodedSvgDataUri = encodeSvgDataUri(sqipResult.final_svg)
   var dimensions = JSON.stringify(sqipResult.img_dimensions)
 
-  return 'module.exports = {"preview": "' + encodedSvgDataUri + '", "dimensions": ' + dimensions + ', ' + end
+  if (/^module.exports = "data:(.*)base64,(.*)/.test(content)) {
+    var end = content.match(/^module.exports = \"(.*)\"/)[1]
+    return (
+      'module.exports = {"preview": "' +
+      encodedSvgDataUri +
+      '", "dimensions": ' +
+      dimensions +
+      ', "src": "' +
+      end +
+      '", "srcSet": ""}'
+    )
+  } else {
+    var end = content.match(/^module.exports = {(.*)}/)[1]
+    return 'module.exports = {"preview": "' + encodedSvgDataUri + '", "dimensions": ' + dimensions + ', ' + end + '}'
+  }
 }
 
 module.exports.raw = true
