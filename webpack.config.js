@@ -90,12 +90,6 @@ module.exports = {
               limit: 40960,
             },
           },
-          // {
-          //   loader: 'image-webpack-loader',
-          //   options: {
-          //     disable: dev,
-          //   },
-          // },
         ],
       },
       {
@@ -181,7 +175,7 @@ module.exports = {
           }),
         ]
       : []),
-    // new CleanWebpackPlugin(dev ? './dist' : './build'),
+    ...(dev ? [new CleanWebpackPlugin('./dist')] : []),
     ...pages.map(p => new HtmlWebpackPlugin(makeHtmlConfig(p))),
   ],
 }
