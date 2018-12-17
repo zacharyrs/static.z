@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "numberOfPrimitives": {
+      "type": ["string", "number"]
+    },
+    "mode": {
+      "type": ["string", "number"]
+    },
+    "blur": {
+      "type": ["string", "number"]
+    },
+    "skipPreviewIfBase64": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": true
+}

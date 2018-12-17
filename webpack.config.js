@@ -1,16 +1,30 @@
 const webpack = require('webpack')
 const WebpackBar = require('webpackbar')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const { WebpackPluginServe: Serve } = require('webpack-plugin-serve')
 
 const fs = require('fs')
 const path = require('path')
+const marked = require('marked')
 
 const data = require('./src/content/data.json')
+const dev = process.env.NODE_ENV == 'development'
 
 const pages = ['src/content/pages/index/index', 'src/content/pages/general/a']
+
+var renderer = new marked.Renderer()
+renderer.image = (href, title, text) => {
+  return `
+  <div class="image-wrapper">
+    <img class="image-preview" src="\${require('./${href}').preview}" alt="${text}" ${
+    title == null ? '' : ' title="' + title + '"'
+  }>
+    <img class="image-main" onload="this.classList.add('image-loaded')" src="\${require('./${href}').src}" srcset="\${require('./${href}').srcSet}" alt="${text}" ${
+    title == null ? '' : ' title="' + title + '"'
+  }>
+  `
+}
 
 const makeHtmlConfig = file => {
   let page = path.basename(file)
@@ -21,7 +35,7 @@ const makeHtmlConfig = file => {
 
   return {
     template: 'pug-loader!./src/base/templates/' + template + '.pug',
-    chunks: [template, ...(process.env.NODE_ENV == 'development' ? ['serve'] : [])],
+    chunks: [template, ...(dev ? ['serve'] : [])],
     cache: true,
     title: meta.title,
     filename: page + '.html',
@@ -40,13 +54,13 @@ module.exports = {
   entry: {
     index: './src/base/templates/index.js',
     general: './src/base/templates/general.js',
-    serve: 'webpack-plugin-serve/client',
+    ...(dev ? { serve: 'webpack-plugin-serve/client' } : {}),
   },
   output: {
     path: __dirname + '/dist',
-    filename: '[name].[hash:8].js',
+    filename: dev ? '[name].[hash].js' : '[name].[chunkhash].js',
   },
-  devtool: process.env.NODE_ENV == 'development' ? 'source-map' : 'hidden-source-map',
+  devtool: dev ? 'source-map' : 'hidden-source-map',
   module: {
     rules: [
       {
@@ -54,17 +68,16 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'sqip-loader',
+            loader: path.resolve('./scripts/sqip-loader.js'),
             options: {
               numberOfPrimitives: 20,
               skipPreviewIfBase64: true,
             },
           },
           {
-            loader: 'url-loader',
+            loader: 'responsive-loader',
             options: {
-              fallback: 'responsive-loader',
-              limit: 40960,
+              sizes: [300, 600, 1200, 2000],
               quality: 85,
               outputPath: 'images/',
               format: 'png',
@@ -72,11 +85,17 @@ module.exports = {
             },
           },
           {
-            loader: 'image-webpack-loader',
+            loader: 'url-loader',
             options: {
-              disable: process.env.NODE_ENV == 'development',
+              limit: 40960,
             },
           },
+          // {
+          //   loader: 'image-webpack-loader',
+          //   options: {
+          //     disable: dev,
+          //   },
+          // },
         ],
       },
       {
@@ -109,29 +128,27 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,
+        test: /\.pcss/,
         exclude: /node_modules/,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: 'file-loader',
+            options: {
+              name: dev ? '[name].[hash].css' : '[name].[chunkhash].css',
+            },
+          },
+          'extract-loader',
           {
             loader: 'css-loader',
             options: {
-              modules: true,
               importLoaders: 1,
             },
           },
-          {
-            loader: 'postcss-loader',
-            options: {
-              parser: 'sugarss',
-              ident: 'postcss',
-              plugins: loader => [require('postcss-preset-env')(), require('autoprefixer')(), require('cssnano')()],
-            },
-          },
+          'postcss-loader',
           {
             loader: 'prettier-loader',
             options: {
-              parser: 'postcss',
+              parser: 'css',
             },
           },
         ],
@@ -139,20 +156,32 @@ module.exports = {
       {
         test: /\.md$/,
         exclude: /node_modules/,
-        use: ['html-loader', 'markdown-loader'],
+        use: [
+          {
+            loader: 'html-loader',
+            options: {
+              interpolate: true,
+            },
+          },
+          {
+            loader: 'markdown-loader',
+            options: { renderer },
+          },
+        ],
       },
     ],
   },
-  watch: process.env.NODE_ENV == 'development',
+  watch: dev,
   plugins: [
     new WebpackBar(),
-    new Serve({
-      static: 'dist',
-    }),
+    ...(dev
+      ? [
+          new Serve({
+            static: 'dist',
+          }),
+        ]
+      : []),
     new CleanWebpackPlugin('./dist'),
-    new MiniCssExtractPlugin({
-      filename: '[name]-[hash:8].css',
-    }),
     ...pages.map(p => new HtmlWebpackPlugin(makeHtmlConfig(p))),
   ],
 }
