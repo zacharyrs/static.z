@@ -58,7 +58,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/dist',
-    filename: dev ? '[name].[hash].js' : '[name].[chunkhash].js',
+    filename: dev ? '[name].[hash].js' : '[name].[contenthash].js',
   },
   devtool: dev ? 'source-map' : 'hidden-source-map',
   module: {
@@ -128,13 +128,13 @@ module.exports = {
         },
       },
       {
-        test: /\.pcss/,
+        test: /\.sss/,
         exclude: /node_modules/,
         use: [
           {
             loader: 'file-loader',
             options: {
-              name: dev ? '[name].[hash].css' : '[name].[chunkhash].css',
+              name: dev ? '[name].[hash].css' : '[name].[contenthash].css',
             },
           },
           'extract-loader',

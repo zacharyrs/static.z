@@ -7036,7 +7036,7 @@ stylelint@9.9.0:
     svg-tags "^1.0.0"
     table "^5.0.0"
 
-sugarss@^2.0.0:
+sugarss@2.0.0, sugarss@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/sugarss/-/sugarss-2.0.0.tgz#ddd76e0124b297d40bf3cca31c8b22ecb43bc61d"
   integrity sha512-WfxjozUk0UVA4jm+U1d736AUpzSrNsQcIbyOkoE364GrtWmIrFdk5lksEupgWMD4VaT/0kVx1dobpiDumSgmJQ==

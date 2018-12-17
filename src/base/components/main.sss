@@ -1,0 +1,17 @@
+@import './theme.sss'
+
+.image-wrapper
+  position: relative
+
+  & .image-preview, & .image-main
+    position: absolute
+    width: 100%
+    z-index: 1
+    top: 0
+    left: 0
+
+  & .image-main
+    display: none
+
+    &.image-loaded
+      display: inline
