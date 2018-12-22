@@ -5,6 +5,6 @@ html
         link(rel="stylesheet" type="text/css" href=require('../components/main.sss'))
     body
         #main-container
-            != require('../../../src/content/pages/index/index/index.md')
+            != require(htmlWebpackPlugin.options.content)
         
         

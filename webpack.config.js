@@ -6,55 +6,19 @@ const { WebpackPluginServe: Serve } = require('webpack-plugin-serve')
 
 const fs = require('fs')
 const path = require('path')
-const marked = require('marked')
 
-const data = require('./src/content/data.json')
 const dev = process.env.NODE_ENV == 'development'
 
-const pages = ['src/content/pages/index/index', 'src/content/pages/general/a']
-
-var renderer = new marked.Renderer()
-renderer.image = (href, title, text) => {
-  return `
-  <div class="image-wrapper">
-    <img class="image-preview" src="\${require('./${href}').preview}" alt="${text}" ${
-    title == null ? '' : ' title="' + title + '"'
-  }>
-    <img class="image-main" onload="this.classList.add('image-loaded')" src="\${require('./${href}').src}" srcset="\${require('./${href}').srcSet}" alt="${text}" ${
-    title == null ? '' : ' title="' + title + '"'
-  }>
-  </div>
-  `
-}
-
-const makeHtmlConfig = file => {
-  let page = path.basename(file)
-  let template = path.basename(path.dirname(file))
-
-  let meta = require('./' + file + '/' + page + '.json')
-  let md = file + '/' + page + '.md'
-
-  return {
-    template: 'pug-loader!./src/base/templates/' + template + '.pug',
-    chunks: [template, ...(dev ? ['serve'] : [])],
-    cache: true,
-    title: meta.title,
-    filename: page + '.html',
-    meta: {
-      viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no',
-      description: meta.description,
-    },
-    md: md,
-
-    // favicon: './src/content/favicon.ico'
-  }
-}
+const mdImages = require('./scripts/renderer.js').mdImages
+const site = require('./scripts/loadSite.js')(path.resolve('./src'), dev)
 
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
-    index: './src/base/templates/index.js',
-    general: './src/base/templates/general.js',
+    ...site.templates.reduce(function(map, obj) {
+      map[obj] = './src/base/templates/' + obj + '.js'
+      return map
+    }, {}),
     ...(dev ? { serve: 'webpack-plugin-serve/client' } : {}),
   },
   output: {
@@ -69,7 +33,7 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: path.resolve('./scripts/sqip-loader.js'),
+            loader: path.resolve('./scripts/sqip-loader/sqip-loader.js'),
             options: {
               numberOfPrimitives: 20,
               skipPreviewIfBase64: true,
@@ -158,10 +122,18 @@ module.exports = {
             },
           },
           {
-            loader: 'markdown-loader',
-            options: { renderer },
+            loader: 'markdown-it-loader',
+            options: {
+              typographer: true,
+              use: [mdImages],
+            },
           },
         ],
+      },
+      {
+        test: /\.pug$/,
+        exclude: /node_modules/,
+        use: ['pug-loader'],
       },
     ],
   },
@@ -176,6 +148,6 @@ module.exports = {
         ]
       : []),
     ...(dev ? [new CleanWebpackPlugin('./dist')] : []),
-    ...pages.map(p => new HtmlWebpackPlugin(makeHtmlConfig(p))),
+    ...site.pages.map(p => new HtmlWebpackPlugin(p)),
   ],
 }
