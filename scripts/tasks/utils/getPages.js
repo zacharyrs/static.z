@@ -1,8 +1,9 @@
 const fs = require('fs')
 const path = require('path')
+const markdownIt = require('markdown-it')
 
 const mdImages = require('../../mdMods.js').mdImages
-const md = require('markdown-it')({
+const md = markdownIt({
   typographer: true,
 }).use(mdImages)
 

@@ -7,25 +7,24 @@ const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 
-const popConfig = require('./utils').popConfig
+const webpackConfig = require('../webpack').config
 
 const site = require(path.resolve('./content/data.json'))
 
 const browser = browserSync.create()
 
-let curConfig = popConfig()
-let bundler = webpack(curConfig)
+let bundler = webpack(webpackConfig)
 
-var server = () => {
+const server = () => {
   browser.init({
     server: '../dist',
     middleware: [webpackDevMiddleware(bundler, { stats: { colors: true } }), webpackHotMiddleware(bundler)],
   })
 }
 
-var build = () => {
+const build = () => {
   return new Promise(resolve => {
-    webpack(curConfig, function(err, stats) {
+    webpack(webpackConfig, function(err, stats) {
       if (err) console.log('Webpack', err)
       console.log(stats.toString({ colors: true }))
       resolve()
