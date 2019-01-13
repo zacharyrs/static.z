@@ -63,5 +63,6 @@ typings/
 
 # custom stuff
 #src/content
+src/cache/html
 dist
 build
