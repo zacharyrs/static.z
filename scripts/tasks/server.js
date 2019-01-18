@@ -29,7 +29,7 @@ const server = () => {
   })
 
   browser.init({
-    // server: '../dist',
+    server: '../dist',
     middleware: [devMiddleware, hotMiddleware],
   })
 }
@@ -42,11 +42,11 @@ const serverReload = () => {
 }
 
 const build = () => {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const config = populateConfig()
 
-    webpack(config, function(err, stats) {
-      if (err) console.log('Webpack', err)
+    webpack(config, (err, stats) => {
+      if (err || stats.hasErrors()) reject(err || stats.toString({ colors: true }))
       console.log(stats.toString({ colors: true }))
       resolve()
     })
