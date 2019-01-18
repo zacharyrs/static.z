@@ -2,17 +2,17 @@
 
 my custom design static site generator (because there aren't enough already...)
 
+features custom pug templating, with markdown and json defined contents
+development has hmr and auto reloads for html changes, but is limited due to html-webpack-plugin usage in that new templates require a server restart
+
+production also additionally minifies and optomizes all resources, and will eventually inline critical css
+
 # todo
 
 ## short-term goals
 
 - [] code refactor
-  - [] HIGH: consider using input js to parse html files as entries, to avoid html-webpack-plugin hence separate from gulp tasks
-  - [] HIGH: change to link css directly in page -> eliminates webpack dependency on gulp tasks
-  - [] LOW: use gulp-favicons then inject into all pages via template task at head start/end -> cache
-  - [] LOW: inject GA via templates task at body end -> cache
-  - [] LOW: create gulp task to generate sitemap based on current webpack plugin -> dist
-  - [] LOW: robots.txt via gulp task, use same module -> dist
+  - [] ONHOLD-HIGH (TODO - HTML): consider using input js to parse html files as entries, to avoid html-webpack-plugin hence separate from gulp tasks
 - [] use gulp to clean dist
 
 ## long-term goals
