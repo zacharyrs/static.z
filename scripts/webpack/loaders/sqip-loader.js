@@ -1,4 +1,3 @@
-const loaderUtils = require('loader-utils')
 const sqip = require('sqip')
 
 const encodeSvgDataUri = svg => {
@@ -15,7 +14,7 @@ const encodeSvgDataUri = svg => {
 }
 
 module.exports = function(contentBuffer) {
-  this.cacheable && this.cacheable()
+  if (this.cacheable) this.cacheable()
 
   const content = contentBuffer.toString('utf8')
   const filePath = this.resourcePath
@@ -29,15 +28,17 @@ module.exports = function(contentBuffer) {
 
   const prvw = encodeSvgDataUri(sqipResult.final_svg)
   const dims = JSON.stringify(sqipResult.img_dimensions)
+  let src
+  let srcSet
 
   if (/^module.exports = "data:(.*)base64,(.*)/.test(content)) {
-    // base64 encoded src, no srcSet
-    var src = '"' + content.match(/^module.exports = \"(.*)\"/)[1] + '"'
-    var srcSet = '""'
+    // Base64 encoded src, no srcSet
+    src = '"' + content.match(/^module.exports = "(.*)"/)[1] + '"'
+    srcSet = '""'
   } else {
-    // larger image, with src and srcSet
-    var src = content.match(/^module.exports = {.*src:(.*?),.*}/)[1]
-    var srcSet = content.match(/^module.exports = {.*srcSet:(.*?),\w*?:.*}/)[1]
+    // Larger image, with src and srcSet
+    src = content.match(/^module.exports = {.*src:(.*?),.*}/)[1]
+    srcSet = content.match(/^module.exports = {.*srcSet:(.*?),\w*?:.*}/)[1]
   }
 
   return (

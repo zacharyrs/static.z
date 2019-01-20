@@ -1,15 +1,10 @@
-const path = require('path')
-
-const gulp = require('gulp')
 const browserSync = require('browser-sync')
 const webpack = require('webpack')
 
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 
-const populateConfig = require('./utils').populateConfig
-
-const site = require(path.resolve('./content/data.json'))
+const { populateConfig } = require('./utils')
 
 const browser = browserSync.create()
 
@@ -35,7 +30,7 @@ const server = () => {
 }
 
 const serverReload = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     browser.reload()
     resolve()
   })
@@ -53,4 +48,4 @@ const build = () => {
   })
 }
 
-module.exports = { build: build, server: server, serverReload: serverReload }
+module.exports = { build, server, serverReload }

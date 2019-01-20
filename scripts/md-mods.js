@@ -1,11 +1,11 @@
 const path = require('path')
 
 const mdImages = md => {
-  md.renderer.rules.image = (tokens, idx, options, env, self) => {
-    let token = tokens[idx]
+  md.renderer.rules.image = (tokens, idx, options, env) => {
+    const token = tokens[idx]
 
-    let href = path.join(env.dir, token.attrs[token.attrIndex('src')][1]) // TODO: check for non local images or youtube links
-    let text = token.content
+    const href = path.join(env.dir, token.attrs[token.attrIndex('src')][1]) // TODO: check for non local images or youtube links
+    const text = token.content
     let title = ''
 
     if (token.attrIndex('title') !== -1) {
@@ -21,4 +21,4 @@ const mdImages = md => {
   }
 }
 
-module.exports = { mdImages: mdImages }
+module.exports = { mdImages }

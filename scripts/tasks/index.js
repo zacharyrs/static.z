@@ -6,21 +6,19 @@ const favicons = require('./favicons.js')
 const sitemap = require('./sitemap.js')
 const robots = require('./robots.js')
 
-const build = webpack.build
-const server = webpack.server
-const serverReload = webpack.serverReload
+const uiLib = require('./ui-lib')
 
-let compile = gulp.series(favicons, templates)
-
-let watch = () => {
+const watch = () => {
   gulp.watch(['./base/**/*.pug', './content/**/*'], () => {
-    console.log("It's reload time")
-    return Promise.all(templates(), serverReload())
+    return Promise.all([templates(), webpack.serverReload()])
   })
 }
 
-let dev = gulp.parallel(gulp.series(compile, server), watch)
-let prod = gulp.series(compile, build, sitemap, robots)
+const patterns = gulp.series(uiLib.demos, gulp.parallel(uiLib.demosWatch, uiLib.patternplate))
 
-module.exports = { dev: dev, prod: prod }
+const dev = gulp.parallel(gulp.series(favicons, templates, webpack.server), patterns, watch)
+
+const prod = gulp.series(favicons, templates, webpack.build, sitemap, robots)
+
+module.exports = { dev, prod, patterns }
 module.exports.default = dev

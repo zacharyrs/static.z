@@ -27,6 +27,7 @@ const robots = () => {
         if (err) {
           reject(err)
         }
+
         resolve()
       })
     })

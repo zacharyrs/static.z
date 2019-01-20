@@ -1,4 +1,4 @@
-const getPages = require('./getPages.js')
-const populateConfig = require('./populateConfig.js')
+const getPages = require('./get-pages.js')
+const populateConfig = require('./populate-config.js')
 
-module.exports = { getPages: getPages, populateConfig: populateConfig }
+module.exports = { getPages, populateConfig }

@@ -15,7 +15,7 @@ const config = {
   developerName: site.devName,
   developerURL: site.devPage,
   background: site.siteTheme.background,
-  theme_color: site.siteTheme.main,
+  theme_color: site.siteTheme.main, // eslint-disable-line camelcase
   path: 'assets/',
   lang: site.siteLang,
   display: 'browser',
@@ -26,11 +26,12 @@ const config = {
 
 const generateFavicons = () => {
   return new Promise((resolve, reject) => {
-    if (!fs.existsSync('./cache/favicons/favicons.html')) {
+    if (fs.existsSync('./cache/favicons/favicons.html') === false) {
       gulp
         .src('./content/logo.png')
         .pipe(favicons(config))
-        .pipe(gif('*.html', replace(/\"(assets\/.*?)\"/g, '"${require(\'cache/favicons/$1\')}"')))
+        // eslint-disable-next-line no-template-curly-in-string
+        .pipe(gif('*.html', replace(/"(assets\/.*?)"/g, '"${require(\'cache/favicons/$1\')}"')))
         .on('error', reject)
         .pipe(gif('*.html', gulp.dest('./cache/favicons/'), gulp.dest('./cache/favicons/assets/')))
         .on('end', resolve)

@@ -7,7 +7,7 @@ const rename = require('gulp-rename')
 const data = require('gulp-data')
 const beautify = require('gulp-jsbeautifier')
 
-const getPages = require('./utils').getPages
+const { getPages } = require('./utils')
 
 const site = require(path.resolve('./content/data.json'))
 
@@ -17,20 +17,11 @@ const build = (page, inject) => {
       .src(page.templatePath)
       .pipe(rename(page.path))
       .pipe(
-        data(file => {
-          return { page: page.locals, site: site, inject: inject }
+        data(_ => {
+          return { page: page.locals, site, inject }
         }),
       )
-      .pipe(
-        pug({
-          locals: {
-            req: (ifile, local = false) => {
-              ifile = path.relative('.', path.resolve(path.dirname(page.templatePath), ifile))
-              return `\${require('${ifile}')}`
-            },
-          },
-        }),
-      )
+      .pipe(pug())
       .pipe(beautify())
       .on('error', reject)
       .pipe(gulp.dest('./cache/html/'))
@@ -38,38 +29,23 @@ const build = (page, inject) => {
   })
 }
 
-// TODO - HTML: Waiting on extract-loader fix regarding interpolation
+// TODO - HTML: Waiting on extract-loader fix regarding interpolation, or webpack 5 with html entries
 const include = pages => {
   return new Promise((resolve, reject) => {
-    let tmpStyles = new Set()
-    // let tmpPages = new Set()
+    const tmpStyles = new Set()
 
     pages.forEach(page => {
       tmpStyles.add(path.join('../', page.templateSssPath))
-      // tmpPages.add(path.resolve('./cache/html', page.path))
     })
-
-    // fs.writeFile(
-    //   './cache/html.js',
-    //   [...tmpPages]
-    //     .map(x => {
-    //       return `require('${x}')`
-    //     })
-    //     .join('\n'),
-    //   err => {
-    //     if (err) {
-    //       reject(err)
-    //     }
-    //   },
-    // )
 
     fs.writeFile(
       './cache/styles.js',
-      [...tmpStyles]
-        .map(x => {
-          return `require('${x}')`
-        })
-        .join('\n'),
+      '/* eslint-disable import/no-unassigned-import */\n' +
+        [...tmpStyles]
+          .map(x => {
+            return `require('${x}')`
+          })
+          .join('\n'),
       err => {
         if (err) {
           reject(err)
@@ -82,8 +58,8 @@ const include = pages => {
 }
 
 const templates = () => {
-  let pages = getPages()
-  let inject = {
+  const pages = getPages()
+  const inject = {
     favicons: fs.readFileSync(path.resolve('./cache/favicons/favicons.html'), 'utf8'),
     ga: `<script async src="https://www.googletagmanager.com/gtag/js?id=${site.siteGA}"></script>
       <script>
