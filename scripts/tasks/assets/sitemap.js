@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const { getPages } = require('./utils')
+const { getPages } = require('../utils')
 
 const site = require(path.resolve('./content/data.json'))
 

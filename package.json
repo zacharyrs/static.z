@@ -1,7 +1,7 @@
 {
   "scripts": {
     "patternplate": "patternplate start",
-    "dev": "NODE_ENV=development gulp --cwd ./src/ --gulpfile ./scripts/tasks",
+    "dev": "NODE_ENV=development gulp dev --cwd ./src/ --gulpfile ./scripts/tasks",
     "patterns": "NODE_ENV=development gulp patterns --cwd ./src/ --gulpfile ./scripts/tasks",
     "build": "NODE_ENV=production gulp prod --cwd ./src/ --gulpfile ./scripts/tasks && echo 'surge -p build -d https://optique.surge.sh' > /dev/null"
   },

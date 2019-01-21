@@ -19,7 +19,7 @@ const html = () => {
     )
     .pipe(
       data(file => {
-        return JSON.parse(fs.readFileSync(path.dirname(file.path) + '/pattern.json')).data
+        return JSON.parse(fs.readFileSync(path.dirname(file.path) + '/pattern.json')).data || {}
       }),
     )
     .pipe(pug())
@@ -50,10 +50,10 @@ const json = () => {
   return gulp.src('./base/components/**/*.json').pipe(gulp.dest('../lib'))
 }
 
-const demos = gulp.parallel(html, css, js, json)
+const demos = gulp.parallel(gulp.series(js, html), css, json)
 
 const demosWatch = () => {
-  gulp.watch(['./base/components/**/*.pug', './base/components/**/*.json'], html)
+  gulp.watch(['./base/components/**/*.pug', './base/components/**/pattern.json'], html)
   gulp.watch('./base/components/**/*.sss', css)
   gulp.watch('./base/components/**/*.js', js)
   gulp.watch('./base/components/**/*.json', json)
