@@ -1,7 +1,4 @@
-/* eslint-disable  import/no-unresolved */
-export const html = () => require('./header.html')
-export const css = () => require('./header.css')
+export const html = () => require('./header.html') // eslint-disable-line  import/no-unresolved
+export const css = () => require('./header.css') // eslint-disable-line  import/no-unresolved
 
-export default () => {
-  console.log('hi')
-}
+export default () => {}
