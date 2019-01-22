@@ -1,12 +1,7 @@
 const fs = require('fs')
 const path = require('path')
-const markdownIt = require('markdown-it')
 
-const { mdImages } = require('../../md-mods.js')
-
-const md = markdownIt({
-  typographer: true,
-}).use(mdImages)
+const md = require('../../modded-markdown-it')
 
 const recursiveFind = (startDir, match) => {
   let results = []

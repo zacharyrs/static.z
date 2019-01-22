@@ -1,6 +1,6 @@
 const path = require('path')
 
-const mdImages = md => {
+const imagesPlus = md => {
   md.renderer.rules.image = (tokens, idx, options, env) => {
     const token = tokens[idx]
 
@@ -21,4 +21,4 @@ const mdImages = md => {
   }
 }
 
-module.exports = { mdImages }
+module.exports = imagesPlus
