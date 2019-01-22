@@ -15,7 +15,7 @@ const populateConfig = () => {
     config.plugins.push(
       new HtmlWebpackPlugin({
         filename: page.path,
-        template: path.resolve('./cache/html', page.path),
+        template: path.resolve('./.cache/html', page.path),
         chunks: ['vendor', 'styles', page.template],
       }),
     )

@@ -24,7 +24,7 @@ const build = (page, inject) => {
       .pipe(pug())
       .pipe(beautify())
       .on('error', reject)
-      .pipe(gulp.dest('./cache/html/'))
+      .pipe(gulp.dest('./.cache/html/'))
       .on('end', resolve)
   })
 }
@@ -39,7 +39,7 @@ const include = pages => {
     })
 
     fs.writeFile(
-      './cache/styles.js',
+      './.cache/styles.js',
       '/* eslint-disable import/no-unassigned-import */\n' +
         [...tmpStyles]
           .map(x => {
@@ -60,7 +60,7 @@ const include = pages => {
 const templates = () => {
   const pages = getPages()
   const inject = {
-    favicons: fs.readFileSync(path.resolve('./cache/favicons/favicons.html'), 'utf8'),
+    favicons: fs.readFileSync(path.resolve('./content/.favicons/favicons.html'), 'utf8'),
     ga: `<script async src="https://www.googletagmanager.com/gtag/js?id=${site.siteGA}"></script>
       <script>
         window.dataLayer = window.dataLayer || [];

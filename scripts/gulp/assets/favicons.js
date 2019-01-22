@@ -26,14 +26,14 @@ const config = {
 
 const generateFavicons = () => {
   return new Promise((resolve, reject) => {
-    if (fs.existsSync('./cache/favicons/favicons.html') === false) {
+    if (fs.existsSync('./content/.favicons/favicons.html') === false) {
       gulp
         .src('./content/logo.png')
         .pipe(favicons(config))
         // eslint-disable-next-line no-template-curly-in-string
-        .pipe(gif('*.html', replace(/"(assets\/.*?)"/g, '"${require(\'cache/favicons/$1\')}"')))
+        .pipe(gif('*.html', replace(/"(assets\/.*?)"/g, '"${require(\'content/.favicons/$1\')}"')))
         .on('error', reject)
-        .pipe(gif('*.html', gulp.dest('./cache/favicons/'), gulp.dest('./cache/favicons/assets/')))
+        .pipe(gif('*.html', gulp.dest('./content/.favicons/'), gulp.dest('./content/.favicons/assets/')))
         .on('end', resolve)
     } else {
       resolve()
