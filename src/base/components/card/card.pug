@@ -1,0 +1,10 @@
+mixin card(description, image, mode)
+  .card(class=`${ mode ? 'card--' + mode : '' }`)
+    if image
+      .card--imagewrapper
+        img(src=image)
+    .card--description
+      p=description
+
+if patternplate
+  +card(description, image, 'demo')

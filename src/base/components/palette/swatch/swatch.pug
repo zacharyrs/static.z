@@ -1,0 +1,9 @@
+mixin swatch(color, fancyname)
+  .swatch
+    .swatch--block(class=`swatch--${fancyname}`)
+    .swatch--name
+      p.bigger=fancyname
+      p=color
+
+if patternplate
+  +swatch(patternplate.cssVars.red, 'red')

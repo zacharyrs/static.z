@@ -3,5 +3,9 @@
   "displayName": "Card",
   "version": "1.0.0",
   "tags": [],
-  "variants": [{}]
+  "variants": [
+    {
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae libero mi. Fusce sodales nisi id nibh ultrices, quis gravida nisl sagittis."
+    }
+  ]
 }
