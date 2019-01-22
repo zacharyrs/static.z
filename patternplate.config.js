@@ -1,6 +1,6 @@
 module.exports = {
-  docs: ['README.md', 'docs/**/*.md'],
-  entry: ['lib/**/demo.js'],
+  docs: ['README.md', 'src/docs/**/*.md'],
+  entry: ['patterns/**/demo.js'],
   render: '@patternplate/render-default/render',
   mount: '@patternplate/render-default/mount',
   ui: {

@@ -1,26 +1,12 @@
 const fs = require('fs')
 const path = require('path')
 
+const glob = require('glob')
+
 const md = require('../../modded-markdown-it')
 
-const recursiveFind = (startDir, match) => {
-  let results = []
-
-  const files = fs.readdirSync(startDir, { withFileTypes: true })
-
-  files.forEach(file => {
-    if (file.isDirectory()) {
-      results = results.concat(recursiveFind(startDir + '/' + file.name, match))
-    } else if (file.name.match(match)) {
-      results.push(startDir + '/' + file.name)
-    }
-  })
-
-  return results
-}
-
 const getPages = () => {
-  return recursiveFind('./content/pages', /[A-Za-z\-_]*\.json/).map(file => {
+  return glob.sync('./content/pages/**/*.json').map(file => {
     const locals = require(path.resolve(file))
     const templatePath = `./base/templates/${locals.template}.pug`
     const templateJsPath = `./base/templates/${locals.template}.js`

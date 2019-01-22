@@ -21,7 +21,7 @@ node_modules/
 .env
 
 # custom stuff
-src/.cache
-src/content
-build
-lib
+/src/.cache
+/src/content
+/build
+/patterns
