@@ -13,12 +13,14 @@ const build = () => {
     glob('./base/components/**/pattern.json', (error, files) => {
       if (error) reject(error)
 
+      delete require.cache[require.resolve('./base/components/css-vars.js')]
+      const main = require('./base/components/css-vars.js') // eslint-disable-line import/no-unresolved
+      delete require.cache[require.resolve('./content/css-vars.js')]
+      const custom = require('./content/css-vars.js') // eslint-disable-line import/no-unresolved
+
       files.forEach(file => {
         const variantsData = JSON.parse(fs.readFileSync(file)).variants || [{}]
         const template = pug.compileFile(path.resolve(path.dirname(file), path.basename(path.dirname(file)) + '.pug'))
-
-        const main = JSON.parse(fs.readFileSync('./base/components/css-vars.json'))
-        const custom = JSON.parse(fs.readFileSync('./content/css-vars.json'))
 
         const variants = variantsData
           .map(data => {
