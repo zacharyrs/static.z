@@ -22,7 +22,7 @@ module.exports = function(contentBuffer) {
   const sqipResult = sqip({
     filename: filePath,
     numberOfPrimitives: 10,
-    mode: 2,
+    mode: 0,
     blur: 12,
   })
 

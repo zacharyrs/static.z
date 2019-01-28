@@ -92,8 +92,7 @@ const config = {
         },
       },
       {
-        enforce: 'pre',
-        test: /\.sss/,
+        test: /\.scss/,
         exclude: /node_modules/,
         use: [
           ExtractCssChunks.loader,
@@ -101,9 +100,16 @@ const config = {
             loader: 'css-loader',
             options: {
               importLoaders: 1,
+              sourceMap: true,
             },
           },
           'postcss-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
         ],
       },
       {

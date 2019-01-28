@@ -10,7 +10,7 @@ const getPages = () => {
     const locals = require(path.resolve(file))
     const templatePath = `./base/templates/${locals.template}.pug`
     const templateJsPath = `./base/templates/${locals.template}.js`
-    const templateSssPath = `./base/templates/${locals.template}.sss`
+    const templateScssPath = `./base/templates/${locals.template}.scss`
     const outpath = locals.path || path.dirname(path.relative('./content/pages', file)) + '.html'
 
     const content = path.dirname(file) + '/' + path.basename(file, '.json') + '.md'
@@ -20,7 +20,7 @@ const getPages = () => {
       locals,
       templatePath,
       templateJsPath,
-      templateSssPath,
+      templateScssPath,
       template: locals.template,
       lastMod: locals.lastMod,
       path: outpath,

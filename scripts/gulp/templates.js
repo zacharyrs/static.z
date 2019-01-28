@@ -35,7 +35,7 @@ const include = pages => {
     const tmpStyles = new Set()
 
     pages.forEach(page => {
-      tmpStyles.add(path.join('../', page.templateSssPath))
+      tmpStyles.add(path.join('../', page.templateScssPath))
     })
 
     fs.writeFile(

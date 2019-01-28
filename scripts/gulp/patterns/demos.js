@@ -4,19 +4,21 @@ const path = require('path')
 const glob = require('glob')
 const pug = require('pug')
 const gulp = require('gulp')
-const rename = require('gulp-rename')
+const sass = require('gulp-sass')
 const postcss = require('gulp-postcss')
 const babel = require('gulp-babel')
+const sassExport = require('sass-export').exporter
 
 const build = () => {
   return new Promise((resolve, reject) => {
     glob('./base/components/**/pattern.json', (error, files) => {
       if (error) reject(error)
 
-      delete require.cache[require.resolve('./base/components/css-vars.js')]
-      const main = require('./base/components/css-vars.js') // eslint-disable-line import/no-unresolved
-      delete require.cache[require.resolve('./content/css-vars.js')]
-      const custom = require('./content/css-vars.js') // eslint-disable-line import/no-unresolved
+      const cssVars = sassExport({
+        inputFiles: ['./base/components/css-vars.scss', './content/css-vars.scss'],
+      }).getStructured()
+
+      console.log(cssVars)
 
       files.forEach(file => {
         const variantsData = JSON.parse(fs.readFileSync(file)).variants || [{}]
@@ -27,10 +29,7 @@ const build = () => {
             return template({
               ...data,
               patternplate: {
-                cssVars: {
-                  ...main,
-                  ...custom,
-                },
+                cssVars,
               },
             })
           })
@@ -57,12 +56,8 @@ const build = () => {
 
 const css = () => {
   return gulp
-    .src('./base/components/**/*.sss')
-    .pipe(
-      rename(file => {
-        file.extname = '.css'
-      }),
-    )
+    .src('./base/components/**/*.scss')
+    .pipe(sass().on('error', sass.logError))
     .pipe(postcss())
     .pipe(gulp.dest('../patterns/'))
 }
@@ -87,17 +82,17 @@ const demosWatch = () => {
     [
       './base/components/**/*.pug',
       './base/components/**/pattern.json',
-      './base/components/**/css-vars.json',
-      './content/**/css-vars.json',
+      './base/components/**/css-vars.scss',
+      './content/**/css-vars.scss',
     ],
     build,
   )
   gulp.watch(
     [
-      './base/components/**/*.sss',
-      './content/custom.sss',
-      './base/components/**/css-vars.json',
-      './content/**/css-vars.json',
+      './base/components/**/*.scss',
+      './content/custom.scss',
+      './base/components/**/css-vars.scss',
+      './content/**/css-vars.scss',
     ],
     css,
   )
