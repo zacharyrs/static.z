@@ -1,0 +1,11 @@
+@import '../card/card.scss';
+
+.palette {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+  .palette__wrapper {
+    width: 160px;
+  }
+}
