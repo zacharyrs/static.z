@@ -21,7 +21,7 @@ const config = {
     // html: './.cache/html.js',
     styles: [
       ...(dev ? ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'] : []),
-      './.cache/styles.js',
+      './base/components/main.scss',
     ],
   },
   mode: process.env.NODE_ENV,

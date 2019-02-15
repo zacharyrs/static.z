@@ -15,14 +15,21 @@ const build = () => {
       if (error) reject(error)
 
       const cssVars = sassExport({
-        inputFiles: ['./base/components/css-vars.scss', './content/css-vars.scss'],
+        inputFiles: ['./base/components/css-vars.scss'],
+        // DISABLED includePaths: ['./'], // Seems not to work to import custom css-vars overrides
       }).getStructured()
-
-      console.log(cssVars)
 
       files.forEach(file => {
         const variantsData = JSON.parse(fs.readFileSync(file)).variants || [{}]
-        const template = pug.compileFile(path.resolve(path.dirname(file), path.basename(path.dirname(file)) + '.pug'))
+
+        let templateFile = path.resolve(path.dirname(file), path.basename(path.dirname(file)))
+        if (fs.existsSync(templateFile + '.demo.pug')) {
+          templateFile += '.demo.pug'
+        } else {
+          templateFile += '.pug'
+        }
+
+        const template = pug.compileFile(templateFile)
 
         const variants = variantsData
           .map(data => {

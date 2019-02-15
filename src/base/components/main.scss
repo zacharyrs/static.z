@@ -15,11 +15,18 @@
 
   .image-main {
     display: none;
-  }
 
-  &.image-loaded {
-    display: inline;
+    &.image-loaded {
+      display: inline;
+    }
   }
 }
+
+@import './css-vars.scss';
+
+@import './typography/typography.scss';
+@import './palette/palette.scss';
+@import './card/card.scss';
+@import './header/header.scss';
 
 @import '../../content/custom.scss';

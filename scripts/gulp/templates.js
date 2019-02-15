@@ -29,34 +29,6 @@ const build = (page, inject) => {
   })
 }
 
-// TODO - HTML: Waiting on extract-loader fix regarding interpolation, or webpack 5 with html entries
-const include = pages => {
-  return new Promise((resolve, reject) => {
-    const tmpStyles = new Set()
-
-    pages.forEach(page => {
-      tmpStyles.add(path.join('../', page.templateScssPath))
-    })
-
-    fs.writeFile(
-      './.cache/styles.js',
-      '/* eslint-disable import/no-unassigned-import */\n' +
-        [...tmpStyles]
-          .map(x => {
-            return `require('${x}')`
-          })
-          .join('\n'),
-      err => {
-        if (err) {
-          reject(err)
-        }
-      },
-    )
-
-    resolve()
-  })
-}
-
 const templates = () => {
   const pages = getPages()
   const inject = {
@@ -69,7 +41,7 @@ const templates = () => {
         gtag('config', '${site.siteGA}');
       </script>`,
   }
-  return Promise.all([...pages.map(page => build(page, inject)), include(pages)])
+  return Promise.all([...pages.map(page => build(page, inject))])
 }
 
 module.exports = templates
