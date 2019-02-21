@@ -21,11 +21,11 @@ const types = [
   },
   {
     value: ':fire: prune',
-    name: '🔥   prune     Removing code or files.',
+    name: '🔥   prune     Removing code or files',
   },
   {
     value: ':recycle: refactor',
-    name: '♻️   refactor  Code rewrite for better readibility, without changes to functionality.',
+    name: '♻️   refactor  Code rewrite for better readibility, without changes to functionality',
   },
   {
     value: ':rewind: revert',
@@ -62,5 +62,5 @@ module.exports = {
   types,
   scopes,
   allowCustomScopes: true,
-  allowBreakingChanges: ['feat', 'fix', 'perf', 'refactor'],
+  allowBreakingChanges: [':sparkles: feat', ':bug: fix', ':zap: perf', ':recycle: refactor'],
 }
