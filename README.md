@@ -21,9 +21,8 @@ eventually inline critical css
 ### long-term goals
 
 - [ ] modify template task to include local search indices generation
-  - use https://www.npmjs.com/package/atomic-algolia to upload?
-  - look into https://www.npmjs.com/package/search-insights - or perhaps link
-    to GA?
+  - use atomic-algolia to upload?
+  - look into search-insights - or perhaps link to GA?
 - [ ] add a gulp task that takes all images and outputs to ./src/cache/images
   - these need to be named such as [filename]-[originalhash]-[size].png
   - ignore images under size 'x', hence url-loader would grab original
