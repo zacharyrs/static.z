@@ -7,17 +7,15 @@ const gulp = require('gulp')
 const sass = require('gulp-sass')
 const postcss = require('gulp-postcss')
 const babel = require('gulp-babel')
-const sassExport = require('sass-export').exporter
+
+const customSass = require('../../sass')
 
 const build = () => {
   return new Promise((resolve, reject) => {
     glob('./base/components/**/pattern.json', (error, files) => {
       if (error) reject(error)
 
-      const cssVars = sassExport({
-        inputFiles: ['./base/components/css-vars.scss'],
-        // DISABLED includePaths: ['./'], // Seems not to work to import custom css-vars overrides
-      }).getStructured()
+      const sassVars = customSass.vars()
 
       files.forEach(file => {
         const variantsData = JSON.parse(fs.readFileSync(file)).variants || [{}]
@@ -36,7 +34,7 @@ const build = () => {
             return template({
               ...data,
               patternplate: {
-                cssVars,
+                sassVars,
               },
             })
           })
@@ -64,7 +62,7 @@ const build = () => {
 const css = () => {
   return gulp
     .src('./base/components/**/*.scss')
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass({ functions: customSass.functions }).on('error', sass.logError))
     .pipe(postcss())
     .pipe(gulp.dest('../patterns/'))
 }
@@ -77,9 +75,7 @@ const js = () => {
 }
 
 const copy = () => {
-  return gulp
-    .src(['./base/components/**/*.json', '!./base/components/**/css-vars.json'])
-    .pipe(gulp.dest('../patterns/'))
+  return gulp.src(['./base/components/**/*.json']).pipe(gulp.dest('../patterns/'))
 }
 
 const demos = gulp.parallel(js, build, css, copy)
@@ -89,8 +85,8 @@ const demosWatch = () => {
     [
       './base/components/**/*.pug',
       './base/components/**/pattern.json',
-      './base/components/**/css-vars.scss',
-      './content/**/css-vars.scss',
+      './base/components/**/sass-vars.js',
+      './content/**/sass-vars.js',
     ],
     build,
   )
@@ -98,8 +94,8 @@ const demosWatch = () => {
     [
       './base/components/**/*.scss',
       './content/custom.scss',
-      './base/components/**/css-vars.scss',
-      './content/**/css-vars.scss',
+      './base/components/**/sass-vars.js',
+      './content/**/sass-vars.js',
     ],
     css,
   )
