@@ -20,14 +20,7 @@ const build = () => {
       files.forEach(file => {
         const variantsData = JSON.parse(fs.readFileSync(file)).variants || [{}]
 
-        let templateFile = path.resolve(path.dirname(file), path.basename(path.dirname(file)))
-        if (fs.existsSync(templateFile + '.demo.pug')) {
-          templateFile += '.demo.pug'
-        } else {
-          templateFile += '.pug'
-        }
-
-        const template = pug.compileFile(templateFile)
+        const template = pug.compileFile(path.resolve(path.dirname(file), 'demo.pug'))
 
         const variants = variantsData
           .map(data => {
@@ -45,11 +38,7 @@ const build = () => {
         })
 
         fs.writeFileSync(
-          path.resolve(
-            '../patterns',
-            path.relative('./base/components/', path.dirname(file)),
-            path.basename(path.dirname(file)) + '.html',
-          ),
+          path.resolve('../patterns', path.relative('./base/components/', path.dirname(file)), 'demo.html'),
           variants,
         )
       })
@@ -61,7 +50,7 @@ const build = () => {
 
 const css = () => {
   return gulp
-    .src('./base/components/**/*.scss')
+    .src('./base/components/**/demo.scss')
     .pipe(sass({ functions: customSass.functions }).on('error', sass.logError))
     .pipe(postcss())
     .pipe(gulp.dest('../patterns/'))
@@ -85,17 +74,20 @@ const demosWatch = () => {
     [
       './base/components/**/*.pug',
       './base/components/**/pattern.json',
-      './base/components/**/sass-vars.js',
-      './content/**/sass-vars.js',
+      './base/components/**/*.scss',
+      './base/styling/**/*.scss',
+      './base/styling/sass-vars.js',
+      './content/sass-vars.js',
     ],
     build,
   )
   gulp.watch(
     [
       './base/components/**/*.scss',
+      './base/styling/**/*.scss',
       './content/custom.scss',
-      './base/components/**/sass-vars.js',
-      './content/**/sass-vars.js',
+      './base/styling/sass-vars.js',
+      './content/sass-vars.js',
     ],
     css,
   )

@@ -23,7 +23,7 @@ const config = {
     // html: './.cache/html.js',
     styles: [
       ...(dev ? ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'] : []),
-      './base/components/main.scss',
+      './base/all.scss',
     ],
   },
   mode: process.env.NODE_ENV,
@@ -81,7 +81,7 @@ const config = {
           {
             loader: 'prettier-loader',
             options: {
-              parser: 'babylon',
+              parser: 'babel',
             },
           },
         ],
