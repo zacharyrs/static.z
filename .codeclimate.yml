@@ -1,0 +1,12 @@
+version: '2'
+plugins:
+  csslint:
+    enabled: true
+  editorconfig:
+    enabled: true
+  fixme:
+    enabled: true
+  git-legal:
+    enabled: true
+  nodesecurity:
+    enabled: true
