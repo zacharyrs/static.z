@@ -1,12 +1,12 @@
 {
-  "name": "ssg.z",
+  "name": "static.z",
   "description": "my custom design static site generator (because there aren't enough already...)",
   "version": "0.0.1",
   "author": {
     "name": "zacharyrs",
     "email": "git@zacharyrs.me"
   },
-  "repository": "git@github.com:zacharyrs/ssg.z.git",
+  "repository": "git@github.com:zacharyrs/static.z.git",
   "main": "scripts/main/index.js",
   "dependencies": {},
   "sideEffects": [

@@ -12,7 +12,7 @@ module.exports = {
   },
   parserPreset: {
     parserOpts: {
-      headerPattern: /^(?:(:\w*?:\s\w+))(?:\((\w*?)\))?:\s((?:.*(?=\())|.*)(?:\(#(\d*)\))?/,
+      headerPattern: /^(?:(:\w*?:\s\w+))(?:\((\w*?|\*)\))?:\s((?:.*(?=\())|.*)(?:\(#(\d*)\))?/,
       headerCorrespondence: ['type', 'scope', 'subject', 'ticket'],
     },
   },
