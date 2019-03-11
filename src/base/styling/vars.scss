@@ -1,0 +1,110 @@
+$colors: (
+  'palette': (
+    'pitch': #162736,
+    'slate': #515d79,
+    'night': #4c67bf,
+    'surf': #51a0ff,
+    'rockpool': #58c8ff,
+    'fern': #7effc1,
+    'warn': #fdff96,
+    'terror': #ff8388,
+  ),
+);
+
+$colors: map-deep-set(
+  $colors,
+  'theme',
+  (
+    'primary': map-deep-get($colors, 'palette', 'surf'),
+    'text': map-deep-get($colors, 'palette', 'pitch'),
+    'subtext': map-deep-get($colors, 'palette', 'slate'),
+  )
+);
+
+// The font-sizes section defines font-size, line-height, and margin-top
+// margin-bottom is set by the font-baseline value
+
+$typography: (
+  'font-body': 'Merriweather' 'Georgia' 'serif',
+  'font-headings': 'Quicksand' 'sans-serif',
+  'font-baseline': 1.5rem,
+  'font-sizes': (
+    'p': (
+      1rem,
+      1.5rem,
+      0,
+    ),
+    'h1': (
+      2.4rem,
+      2.4rem,
+      2.1rem,
+    ),
+    'h2': (
+      2rem,
+      2rem,
+      2.5rem,
+    ),
+    'h3': (
+      1.6rem,
+      1.6rem,
+      2.9rem,
+    ),
+    'h4': (
+      1.4rem,
+      1.4rem,
+      3.1rem,
+    ),
+    'h5': (
+      1rem,
+      1rem,
+      3.5rem,
+    ),
+    'h6': (
+      0.875rem,
+      0.875rem,
+      3.625rem,
+    ),
+  ),
+  'leading-factor': 1,
+  'leading-factor-desktop': 1.25,
+  'desktop-break': 40 * 16px,
+  'font-breaks': (
+    (16px, 20px, 40 * 16px, 75 * 16px),
+  ),
+  'font-styles': (
+    'p': (
+      'normal': (
+        'color': map-deep-get($colors, 'theme', 'text'),
+      ),
+    ),
+    'h1,h2,h3,h4,h5,h6': (
+      'normal': (
+        'color': map-deep-get($colors, 'theme', 'subtext'),
+        'font-weight': 100,
+      ),
+    ),
+    'a': (
+      'normal': (
+        'color': map-deep-get($colors, 'theme', 'primary'),
+      ),
+      ':visited': (
+        'color': map-deep-get($colors, 'theme', 'primary'),
+      ),
+      ':hover': (
+        'color': map-deep-get($colors, 'palette', 'rockpool'),
+      ),
+      ':active': (
+        'color': map-deep-get($colors, 'palette', 'terror'),
+      ),
+    ),
+  ),
+);
+
+$border-radius: 8px;
+
+//
+// module.exports = {
+//   colors,
+//   typography,
+//
+// }

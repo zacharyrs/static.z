@@ -8,8 +8,6 @@ const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-const customSass = require('../sass')
-
 const site = require(path.resolve('./content/data.json'))
 
 const dev = process.env.NODE_ENV === 'development'
@@ -109,7 +107,6 @@ const config = {
           {
             loader: 'sass-loader',
             options: {
-              functions: customSass.vars(),
               sourceMap: true,
             },
           },

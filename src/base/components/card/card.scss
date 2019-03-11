@@ -1,35 +1,47 @@
-.card--wrapper {
-  border-radius: 8px;
-  box-shadow: 0px 0px 20px 1px #bbbbbb;
-  overflow: hidden;
-  position: relative;
-
-  &__square,
-  &__swatch {
-    padding-top: 100%;
-  }
-}
-
-.card--content {
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-
-  &__image {
-    height: 40%;
+.card {
+  &-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 0 20px 1px #bbbbbb;
     overflow: hidden;
+    position: relative;
+
+    // Variants
+    &_square {
+      padding-top: 100%;
+    }
+
+    &_image {
+      .card-content {
+        &_image {
+          display: block;
+          height: 40%;
+          overflow: hidden;
+        }
+
+        &_description {
+          height: 60%;
+        }
+      }
+    }
+
+    // End variants
   }
 
-  &__swatch {
-    height: 50%;
-    overflow: hidden;
-  }
+  &-content {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
 
-  &__description {
-    box-sizing: border-box;
-    height: 60%;
-    padding: 4%;
+    &_image {
+      display: none;
+    }
+
+    &_description {
+      box-sizing: border-box;
+      height: 100%;
+      padding: 4%;
+    }
   }
 }

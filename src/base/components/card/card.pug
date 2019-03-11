@@ -1,13 +1,10 @@
 mixin card(title, description, image, ...variants)
-  .card--wrapper(class=`${variants ? variants.map(variant => 'card--wrapper__' + variant).join(' ') :''}`)
-    .card--content
-      if variants.includes('image')
-        .card--content__image
-          img(src=image)
-      if variants.includes('swatch')
-        .card--content__swatch(style=`background-color:${image}`)
-      .card--content__text
-        .card--content__title
+  .card-wrapper(class=`${variants ? variants.map(variant => 'card-wrapper_' + variant).join(' ') :''}`)
+    .card-content
+      .card-content_image
+        img(src=image)
+      .card-content_text
+        .card-content_title
           h3=title
-        .card--content__description
+        .card-content_description
           p=description

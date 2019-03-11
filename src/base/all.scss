@@ -22,14 +22,8 @@
   }
 }
 
-@import './styling/main.scss';
-
-@import './components/typography/typography.scss';
-
-@import './components/palette/palette.scss';
-
-@import './components/card/card.scss';
-
-@import './components/header/header.scss';
-
-@import '../content/custom.scss';
+@import './styling/main';
+@import './components/typography/typography';
+@import './components/card/card';
+@import './components/header/header';
+@import '../content/custom';

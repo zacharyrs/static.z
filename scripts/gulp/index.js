@@ -1,19 +1,11 @@
 const gulp = require('gulp')
 
-const templates = require('./templates.js')
 const { favicons, sitemap, robots } = require('./assets')
 const webpack = require('./webpack.js')
+const styleguide = require('./styleguide.js')
 
-const patterns = require('./patterns')
+const dev = gulp.parallel(gulp.series(favicons, webpack.dev), styleguide)
+const prod = gulp.series(favicons, webpack.prod, sitemap, robots)
 
-const templatesWatch = () => {
-  gulp.watch(['./base/**/*.pug', './content/**/*'], () => {
-    return Promise.all([templates(), webpack.serverReload()])
-  })
-}
-
-const dev = gulp.parallel(gulp.series(favicons, templates, webpack.server), templatesWatch, patterns)
-const prod = gulp.series(favicons, templates, webpack.build, sitemap, robots)
-
-module.exports = { dev, prod, patterns }
-module.exports.default = dev
+module.exports = { prod, dev, styleguide }
+module.exports.default = prod

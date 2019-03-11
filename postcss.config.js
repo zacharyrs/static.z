@@ -26,10 +26,6 @@ module.exports = {
 
     // Automatic font rules
     require('postcss-font-magician')({ protocol: 'https:' }),
-    require('rfs')(),
-
-    // Check for colour consistency
-    require('colorguard')(),
 
     // Check for browser compatibility
     require('doiuse')({
@@ -37,6 +33,6 @@ module.exports = {
     }),
 
     // Print reported issues nicely
-    require('postcss-reporter')(),
+    require('postcss-reporter')({ clearReportedMessages: true }),
   ],
 }

@@ -1,9 +1,0 @@
-include ../card/card.pug
-
-
-each palette, name in patternplate.sassVars.colors
-  h2=name
-  .palette
-    each color, name in palette
-      .palette__wrapper
-        +card(name, color, color, 'swatch')

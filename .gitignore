@@ -24,4 +24,4 @@ node_modules/
 /src/.cache
 /src/content
 /build
-/patterns
+/styleguide
