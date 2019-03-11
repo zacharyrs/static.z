@@ -95,7 +95,12 @@ const config = {
         test: /\.scss/,
         exclude: /node_modules/,
         use: [
-          ExtractCssChunks.loader,
+          {
+            loader: ExtractCssChunks.loader,
+            options: {
+              hot: true,
+            },
+          },
           {
             loader: 'css-loader',
             options: {
@@ -144,14 +149,13 @@ const config = {
       ? [new webpack.HotModuleReplacementPlugin()]
       : [
           new CleanWebpackPlugin('./build', { root: path.resolve('../') }),
-          new FixStyleOnlyEntriesPlugin({ extensions: ['sss', 'css'] }),
+          new FixStyleOnlyEntriesPlugin({ extensions: ['scss', 'css'] }),
         ]),
     new webpack.BannerPlugin(
       `[name]-[file]-[hash]-${new Date().toISOString().slice(0, 10)}\n Copyright ${site.siteName}`,
     ),
     new ExtractCssChunks({
       filename: dev ? '[name].css' : '[name].[contenthash].css',
-      hot: true,
     }),
   ],
   optimization: {
