@@ -1,0 +1,5 @@
+/* stylelint-disable scss/at-function-pattern */
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+/* stylelint-enable scss/at-function-pattern  */

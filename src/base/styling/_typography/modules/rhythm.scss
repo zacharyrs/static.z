@@ -1,0 +1,35 @@
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+
+  @include ssg-font-scale();
+}
+
+@each $elem in 'p' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' {
+  #{$elem} {
+    @include ssg-vertical-rhythm-with-desktop($elem);
+  }
+}
+
+// h1 + h2 {
+//   margin-top: 1rem;
+// }
+//
+// h2 + h3,
+// h3 + h4,
+// h4 + h5 {
+//   margin-top: 0.5rem;
+// }
+//
+// h5 + h6 {
+//   margin-top: -0.5rem;
+// }
+
+hgroup {
+  display: block;
+}
+
+ul,
+ol {
+  @include ssg-vertical-rhythm-with-desktop('p');
+}

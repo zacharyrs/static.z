@@ -1,0 +1,26 @@
+html {
+  font-family: map-get($typography, 'font-body');
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: map-get($typography, 'font-headings');
+}
+
+a {
+  background: transparent;
+  transition: all 0.3s;
+
+  &:active,
+  &:hover {
+    outline: 0;
+  }
+}
+
+@each $elem, $styles in map-get($typography, 'font-styles') {
+  @include ssg-apply-styling($elem: $elem, $styles: $styles);
+}

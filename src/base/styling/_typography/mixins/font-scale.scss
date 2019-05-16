@@ -1,0 +1,28 @@
+@mixin ssg-font-scale($font-breaks: map-get($typography, 'font-breaks')) {
+  /* Applied to html element
+  ** offers smooth transition between breakpoints
+  ** and a fallback for no calc support
+  */
+
+  // $font-breaks is a list of lists -> ($min-vw $max-vw $font-to)
+
+  font-size: nth(nth($font-breaks, 1), 1);
+
+  @each $break in $font-breaks {
+    $font-from: nth($break, 1);
+    $font-to: nth($break, 2);
+    $min-vw: nth($break, 3);
+    $max-vw: nth($break, 4);
+
+    @media screen and (min-width: $min-vw) and (max-width: $max-vw) {
+      font-size: $font-from;
+      font-size: calc(
+        #{$font-from} + #{strip-unit($font-to - $font-from)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})
+      );
+    }
+
+    @media screen and (min-width: $max-vw) {
+      font-size: $font-to;
+    }
+  }
+}

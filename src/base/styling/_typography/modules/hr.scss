@@ -1,0 +1,35 @@
+// Horizontal rule
+$hr-color: black;
+$leading: 16px;
+$hr-height: 2px;
+
+$baseline: map-get($typography, 'font-baseline');
+$leading-factor: map-get($typography, 'leading-factor');
+
+hr {
+  background-image: linear-gradient(
+    to bottom,
+    transparent 1px,
+    transparent 0.5 * ($leading - $hr-height),
+    $hr-color 0.5 * ($leading - $hr-height),
+    $hr-color 0.5 * ($leading + $hr-height),
+    transparent 0.5 * ($leading + $hr-height),
+    transparent $leading
+  );
+  background-size: 100% $baseline * $leading-factor;
+  border: 0;
+  box-sizing: content-box;
+  color: $hr-color;
+  display: block;
+  height: $baseline * $leading-factor;
+  margin: $baseline * $leading-factor auto;
+  width: 20vw;
+
+  @media screen and (min-width: map-get($typography, 'desktop-break')) {
+    $leading-factor: map-get($typography, 'leading-factor-desktop');
+    background-size: 100% $baseline * $leading-factor;
+    height: $baseline * $leading-factor;
+    margin: $baseline * $leading-factor auto;
+    width: 40vw;
+  }
+}

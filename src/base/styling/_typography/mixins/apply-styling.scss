@@ -1,0 +1,17 @@
+@mixin ssg-apply-styling($elem: 'p', $styles: map-deep-get($typography, 'font-styles', 'p')) {
+  #{$elem} {
+    @each $variant, $props in $styles {
+      @if ($variant == 'normal') {
+        @each $property, $value in $props {
+          #{$property}: $value;
+        }
+      } @else {
+        &#{$variant} {
+          @each $property, $value in $props {
+            #{$property}: $value;
+          }
+        }
+      }
+    }
+  }
+}

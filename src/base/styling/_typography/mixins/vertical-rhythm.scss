@@ -1,0 +1,28 @@
+@mixin ssg-vertical-rhythm(
+  $elem: 'p',
+  $factors: map-get($typography, 'font-sizes'),
+  $leading-factor: map-get($typography, 'leading-factor')
+) {
+  $factor: map-get($factors, $elem);
+
+  font-size: nth($factor, 1);
+  line-height: nth($factor, 2) * $leading-factor;
+  margin-bottom: map-get($typography, 'font-baseline') * $leading-factor;
+  margin-top: nth($factor, 3) * $leading-factor;
+}
+
+@mixin ssg-vertical-rhythm-with-desktop($elem: 'p', $factors: map-get($typography, 'font-sizes')) {
+  @include ssg-vertical-rhythm(
+    $elem: $elem,
+    $factors: $factors,
+    $leading-factor: map-get($typography, 'leading-factor')
+  );
+
+  @media screen and (min-width: map-get($typography,'desktop-break')) {
+    @include ssg-vertical-rhythm(
+      $elem: $elem,
+      $factors: $factors,
+      $leading-factor: map-get($typography, 'leading-factor-desktop')
+    );
+  }
+}

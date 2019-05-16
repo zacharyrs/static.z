@@ -1,0 +1,28 @@
+blockquote {
+  font-style: italic;
+  padding-left: 1.4375rem;
+
+  // @media screen and (min-width: #{ $max-width + 5 + 'em'}) {
+  //   padding-left: 2rem;
+  // }
+}
+
+cite {
+  display: block;
+  font-style: normal;
+}
+
+// Quotes
+figure blockquote {
+  padding: 1.5rem 0;
+
+  // @media screen and (min-width: #{ $max-width + 5 + 'em'}) {
+  //   padding: 3rem 0 1.5rem;
+  //   text-align: center;
+  // }
+
+  p {
+    font-size: 1.6875 * 1.5rem;
+    line-height: 2.25rem;
+  }
+}

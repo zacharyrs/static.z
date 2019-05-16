@@ -1,0 +1,40 @@
+// TODO: Fix everything in here, and make baseline dynamic
+// Also add example
+
+figcaption {
+  // color: $color-font-figcaption;
+  display: block;
+  font-size: 0.8125rem;
+  font-style: italic;
+  line-height: 1rem;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+figure {
+  display: block;
+}
+
+figure.floatLeft,
+figure.floatRight {
+  // @media screen and (min-width: #{ $max-width + 5 + 'em'}) {
+  //   max-width: #{0.5 * $max-width * $base-desktop + 'px'};
+  //   max-width: #{0.5 * $max-width + 'rem'};
+  //
+  //   padding: 0 1.5rem;
+  // }
+
+  blockquote {
+    // @media screen and (min-width: #{ $max-width + 5 + 'em'}) {
+    //   padding: 0;
+    //   text-align: left;
+    // }
+
+    p {
+      // @media screen and (min-width: #{ $max-width + 5 + 'em'}) {
+      //   font-size: 1.2rem;
+      //   line-height: 1.5rem;
+      // }
+    }
+  }
+}

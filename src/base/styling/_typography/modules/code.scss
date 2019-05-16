@@ -1,0 +1,14 @@
+code,
+pre {
+  @include ssg-vertical-rhythm-with-desktop('p');
+  font-family: monospace, monospace;
+  vertical-align: bottom;
+}
+
+code {
+  padding: 0 1rem;
+}
+
+pre {
+  overflow: auto;
+}
