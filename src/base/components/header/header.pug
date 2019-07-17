@@ -1,1 +1,22 @@
-p testing
+mixin menu(menuitems)
+  ul
+    each item in menuitems
+      li
+        a(href=item.link)
+          =item.title
+        if (item.hasChildren)
+          +menu(item.children)
+
+mixin header(branding, menuitems, logo, ...variants)
+  .header-wrapper#header(class=`${variants ? variants.map(variant => 'header-wrapper_' + variant).join(' ') :''}`)
+    .header-content
+      .header-branding
+        if logo
+          .header-branding_image
+            img(src=logo)
+        .header-branding_title
+          =branding
+      if menuitems
+        nav.header-nav(role='navigation')
+          +menu(menuitems)
+

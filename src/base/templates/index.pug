@@ -1,7 +1,10 @@
+include ../components/header/header.pug
+
 html
     head
         title=page.title
         meta(charset='utf-8')
     body
+        +header(site.siteName, site.menu)
         #main-container
             !=page.content

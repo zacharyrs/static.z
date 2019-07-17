@@ -12,7 +12,7 @@ const rename = require('gulp-rename')
 const data = require('gulp-data')
 const beautify = require('gulp-jsbeautifier')
 
-const { getPages, populateConfig } = require('./utils')
+const { getPages, populateConfig, constructMenu } = require('./utils')
 
 const site = require(path.resolve('./content/data.json'))
 
@@ -69,6 +69,7 @@ const webpackPrecompile = () => {
         gtag('config', '${site.siteGA}');
       </script>`,
   }
+  site.menu = constructMenu(pages)
   return Promise.all([...pages.map(page => compilePug(page, inject))])
 }
 
@@ -96,7 +97,7 @@ const webpackProd = () => {
   })
 }
 
-const dev = gulp.series(webpackPrecompile, webpackDev, webpackPrecompileWatch)
+const dev = gulp.parallel(gulp.series(webpackPrecompile, webpackDev), webpackPrecompileWatch)
 const prod = gulp.series(webpackPrecompile, webpackProd)
 
 module.exports = { dev, prod }

@@ -8,10 +8,10 @@ content:
 
 This is a test
 
-```card:./demo.html hidden
+```card:./demo.css hidden
 
 ```
 
-```card:./demo.css hidden
+```card:./demo.html hidden
 
 ```
