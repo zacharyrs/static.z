@@ -1,23 +1,29 @@
 .image-wrapper {
   display: inline-block;
-  position: relative;
   vertical-align: top;
   width: 300px;
 
-  .image-preview,
-  .image-main {
-    left: 0;
-    position: absolute;
-    top: 0;
+  .image-aspect {
+    position: relative;
     width: 100%;
-    z-index: 1;
-  }
+    padding-top: 100%; // This gets set automatically per image
 
-  .image-main {
-    display: none;
+    .image-preview,
+    .image-main {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 1;
+    }
 
-    &.image-loaded {
-      display: inline;
+    .image-main {
+      display: none;
+
+      &.image-loaded {
+        display: inline;
+      }
     }
   }
 }
