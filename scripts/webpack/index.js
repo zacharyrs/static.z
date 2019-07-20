@@ -36,22 +36,15 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.(gif|png|jpe?g)$/,
-        exclude: /node_modules|cache\/favicons\/assets/,
+        test: /\.(svg|gif|png|jpe?g)$/,
+        exclude: /node_modules|content\/favicons\/assets/,
         use: [
-          '../scripts/webpack/loaders/sqip-loader.js',
+          '../scripts/webpack/loaders/image-loader.js', // Bring in the preview svg, srcset, and image by hash name
           {
             loader: 'url-loader',
             options: {
               fallback: {
-                loader: 'responsive-loader',
-                options: {
-                  sizes: [300, 600, 1200, 2000],
-                  name: 'images/[name]-[hash]-[width].[ext]',
-                  format: 'png',
-                  disable: dev,
-                  adapter: require('responsive-loader/sharp'),
-                },
+                loader: 'file-loader',
               },
               limit: 40960,
             },

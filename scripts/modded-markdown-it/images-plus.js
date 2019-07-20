@@ -23,19 +23,15 @@ const imagesPlus = md => {
 
       return `
       <span class="image-wrapper">
-      <div class="image-aspect">
       <img class="image-preview" src="\${require('${href}').preview}" alt="${text}" ${title}>
       <img class="image-main" onload="this.classList.add('image-loaded')" src="\${require('${href}').src}" srcset="\${require('${href}').srcSet}" alt="${text}" ${title}>
-      </div>
       </span>
       `
     }
 
     return `
     <span class="image-wrapper">
-    <div class="image-aspect">
     <img class="image-main" onload="this.classList.add('image-loaded')" src="${href}" alt="${text}" ${title}>
-    </div>
     </span>
     `
   }
